@@ -32,11 +32,12 @@ def crawlerAgendarEmitidas(
     endDateFormatted = re.sub(r'(\d{2})(\d{2})(\d{4})', r'\1/\2/\3', endDate)
     url = 'https://www.dfeportal.fazenda.pr.gov.br/dfe-portal/manterDownloadDFe.do?action=iniciar'
 
-    options = Options()
-    options.headless = True
-    options.add_argument("--window-size=1920x1080")
+    chrome_options = Options()
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--disable-dev-shm-usage')
 
-    page = webdriver.Chrome(service=service, options=options)
+    page = webdriver.Chrome(service=service, options=chrome_options)    
     
     page.maximize_window()
     page.get(url)

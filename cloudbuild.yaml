@@ -1,0 +1,20 @@
+steps:
+# Build the container image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/actflow-workspace/actflow-crawler-nfe-receita', '.']
+# Push the container image to Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/actflow-workspace/actflow-crawler-nfe-receita']
+# Deploy container image to Cloud Run
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: gcloud
+  args: ['run', 'deploy', 'actflow-crawler-nfe-receita', '--image', 'gcr.io/actflow-workspace/actflow-crawler-nfe-receita', '--region', 'us-central1', '--platform', 'managed', '--port', '5000', '--memory', '1G', '--timeout', '3600s', '--set-secrets', 'FIREBASE=projects/991164411750/secrets/FirebaseKey/versions/1,STORAGE=projects/991164411750/secrets/StorageKey/versions/1', --allow-unauthenticated]
+  secretEnv: ['FIREBASE', 'STORAGE']
+availableSecrets:
+   secretManager:
+   - versionName: projects/991164411750/secrets/FirebaseKey/versions/1
+     env: 'FIREBASE'
+   - versionName: projects/991164411750/secrets/StorageKey/versions/1
+     env: 'STORAGE'
+images:
+- gcr.io/actflow-workspace/actflow-crawler-nfe-receita
