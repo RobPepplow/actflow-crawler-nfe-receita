@@ -184,7 +184,7 @@ def crawlerUpdate(
                     "countInvoices": objeto_linha["coluna11"],
                     "documentNumber": documentNumber,
                     "docType": objeto_linha["coluna4"],
-                    "description": "objeto_linha["coluna10"]",
+                    "description": objeto_linha["coluna10"],
                     "escritorioId": escritorioId,
                     "empresaId": empresaId,
                     "requestNumber": requestNumber,
